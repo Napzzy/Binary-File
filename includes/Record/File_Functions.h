@@ -9,10 +9,26 @@
 #include <vector>
 
 using namespace std;
+bool file_exists(const char filename[])
+{
+    const bool debug = false;
+    fstream ff;
+    ff.open(filename,
+            std::fstream::in | std::fstream::binary);
+    if (ff.fail())
+    {
+        if (debug)
+            cout << "file_exists(): File does NOT exist: " << filename << endl;
+        return false;
+    }
+    if (debug)
+        cout << "file_exists(): File DOES exist: " << filename << endl;
+    ff.close();
+    return true;
+}
 
-
-void ReadStringArray(string str[], char _record[]){
-
+void ReadStringArray(string str[], char _record[])
+{
 }
 
 void open_fileRW(fstream &f, const char filename[]) throw(char *)
@@ -48,33 +64,6 @@ void open_fileRW(fstream &f, const char filename[]) throw(char *)
     }
 }
 
-bool file_exists(const char filename[])
-{
-    const bool debug = false;
-    fstream ff;
-    ff.open(filename,
-            std::fstream::in | std::fstream::binary);
-    if (ff.fail())
-    {
-        if (debug)
-            cout << "file_exists(): File does NOT exist: " << filename << endl;
-        return false;
-    }
-    if (debug)
-        cout << "file_exists(): File DOES exist: " << filename << endl;
-    ff.close();
-    return true;
-}
-
-// This is a helper
-vector<string> read_info(fstream &f, long recno, ){
-    // vector<string> Info; 
-
-    // long pos = recno * sizeof(); 
-
-
-
-}
 
 void string_copy(const string &s, const int &SIZE, char _record[][101])
 {
@@ -97,8 +86,6 @@ void string_copy(const string &s, const int &SIZE, char _record[][101])
 
     _record[row][column] = '\0';
 }
-
-
 
 void Array_copy(const char str[], const int &SIZE, char _record[][101])
 {

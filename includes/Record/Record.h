@@ -18,6 +18,8 @@ public:
     Record(char str[][100]);
     // String into 2d;
     Record(string s);
+    // Array of Strings
+    Record(string s[]);
 
     // Writes into the file the data, takes care of 2d
     long write(fstream &outs);

@@ -3,7 +3,7 @@
 #include <cstring>
 #include <string>
 #include <iomanip>
-#include "Record.h"
+#include "includes/Record/Record.h"
 using namespace std;
 
 // utility functions
@@ -17,22 +17,22 @@ void simple_test();
 //                      C L A S S   R E C O R D
 //----------------------------------------------------------------------------
 
-class Record
+class RecordV1
 {
 public:
     // when you construct a Record, it's either empty or it
     //   contains a word
-    Record()
+    RecordV1()
     {
         _record[0] = '\0';
         recno = -1;
     }
 
-    Record(char str[])
+    RecordV1(char str[])
     {
         strncpy(_record, str, MAX);
     }
-    Record(string s)
+    RecordV1(string s)
     {
         strncpy(_record, s.c_str(), MAX);
     }
@@ -43,7 +43,7 @@ public:
                                          //       read passed the end of file
 
     friend ostream &operator<<(ostream &outs,
-                               const Record &r);
+                               const RecordV1 &r);
 
 private:
     static const int MAX = 100;
@@ -51,7 +51,7 @@ private:
     char _record[MAX + 1];
 };
 
-long Record::write(fstream &outs)
+long RecordV1::write(fstream &outs)
 {
     // r.write(f); //take the Record r and write it into file f
     //   and return the record number of this Record
@@ -70,7 +70,7 @@ long Record::write(fstream &outs)
 }
 
 
-long Record::read(fstream &ins, long recno)
+long RecordV1::read(fstream &ins, long recno)
 {
     // returns the number of bytes read.
     //     r.read(f, 6);
@@ -88,7 +88,7 @@ long Record::read(fstream &ins, long recno)
 }
 
 ostream &operator<<(ostream &outs,
-                    const Record &r)
+                    const RecordV1 &r)
 {
     outs << r._record;
     return outs;
@@ -195,39 +195,39 @@ void simple_test()
     // reset the file: use this for new files
     open_fileW(f, "record_list.bin");
 
-    Record r;
+    RecordV1 r;
     int recno = -1;
-    r = Record("Joe Zero"); // filling the envelop
+    r = RecordV1("Joe Zero"); // filling the envelop
     recno = r.write(f);
     cout << "wrote into record: " << recno << endl;
 
-    r = Record("One Arm Jane"); // filling the envelop
+    r = RecordV1("One Arm Jane"); // filling the envelop
     recno = r.write(f);
     cout << "wrote into record: " << recno << endl;
 
-    r = Record("Two face Harvey"); // filling the envelop
+    r = RecordV1("Two face Harvey"); // filling the envelop
     recno = r.write(f);
     cout << "wrote into record: " << recno << endl;
 
-    r = Record("Three Eyed Raven"); // filling the envelop
+    r = RecordV1("Three Eyed Raven"); // filling the envelop
     recno = r.write(f);
     cout << "wrote into record: " << recno << endl;
 
-    r = Record("Four Eyes, Four Eyes! "); // filling the envelop
+    r = RecordV1("Four Eyes, Four Eyes! "); // filling the envelop
     recno = r.write(f);
     cout << "wrote into record: " << recno << endl;
 
-    r = Record("Cinco De Mayo, Bryan! "); // filling the envelop
+    r = RecordV1("Cinco De Mayo, Bryan! "); // filling the envelop
     recno = r.write(f);
     cout << "wrote into record: " << recno << endl;
 
-    r = Record("The Six Shooter Kid! "); // filling the envelop
+    r = RecordV1("The Six Shooter Kid! "); // filling the envelop
     recno = r.write(f);
     cout << "wrote into record: " << recno << endl;
 
     f.close();
 
-    Record r2;
+    RecordV1 r2;
     // open the file for reading and writing.
     open_fileRW(f, "record_list.bin");
     r2.read(f, 3);                      // empty envelop to be filled by the Record object
@@ -270,7 +270,7 @@ void confuse_me()
     open_fileW(f, "record_list.bin");
     for (int i = 0; i < 10; i++)
     {
-        Record r(list[i]); // filling the envelop
+        RecordV1 r(list[i]); // filling the envelop
         long recno = r.write(f);
         cout << "[" << setw(5) << list[i] << "]" << " was written into file as record: " << setw(2) << recno << endl;
     }
@@ -281,7 +281,7 @@ void confuse_me()
     cout << "------------------------------------------------------" << endl;
 
     // open the file for reading and writing.
-    Record rec;
+    RecordV1 rec;
     open_fileRW(f, "record_list.bin");
 
     int i = 0;
@@ -300,7 +300,7 @@ void confuse_me()
     cout << "[ ]Read / RETRIEVE / SELECT records from the file: " << endl;
     cout << "------------------------------------------------------" << endl;
 
-    Record r;
+    RecordV1 r;
     int selected_records[] = {4, 6, 8, 9};
     // open the file for reading and writing.
     open_fileRW(f, "record_list.bin");
